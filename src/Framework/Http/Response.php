@@ -24,9 +24,9 @@ class Response implements ResponseInterface
         500 => 'Internal Server Error',
     ];
 
-    public function __construct(StreamInterface $body, int $statusCode = 200)
+    public function __construct(string $body, int $statusCode = 200)
     {
-        $this->body = $body;
+        $this->body = new SimpleStream($body);
         $this->statusCode = $statusCode;
     }
 
