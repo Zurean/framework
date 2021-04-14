@@ -2,11 +2,14 @@
 
 namespace Framework\Http;
 
-class Response
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
+
+class Response implements ResponseInterface
 {
     private array $headers = [];
 
-    private string $body;
+    private StreamInterface $body;
 
     private int $statusCode;
 
@@ -21,19 +24,19 @@ class Response
         500 => 'Internal Server Error',
     ];
 
-    public function __construct(string $body, int $statusCode = 200)
+    public function __construct(StreamInterface $body, int $statusCode = 200)
     {
         $this->body = $body;
         $this->statusCode = $statusCode;
     }
 
 
-    public function getBody(): string
+    public function getBody(): StreamInterface
     {
         return $this->body;
     }
 
-    public function withBody(string $body): self
+    public function withBody(StreamInterface $body): self
     {
         $new = clone $this;
 
@@ -47,7 +50,10 @@ class Response
         return $this->statusCode;
     }
 
-    public function withStatus(int $code, string $reasonPhrase = ''): self
+    /**
+     * @inheritDoc
+    */
+    public function withStatus($code, $reasonPhrase = ''): self
     {
 
         $new = clone $this;
@@ -72,29 +78,54 @@ class Response
         return $this->headers;
     }
 
-    public function hasHeader($header): bool
+    public function hasHeader($name): bool
     {
-        return isset($this->headers[$header]);
+        return isset($this->headers[$name]);
     }
 
-    public function getHeader($header): ?string
+    public function getHeader($name): ?string
     {
-        if (!$this->hasHeader($header)) {
+        if (!$this->hasHeader($name)) {
             return null;
         }
-        return $this->headers[$header];
+        return $this->headers[$name];
     }
 
-    public function withHeader($header, $value): self
+    public function withHeader($name, $value): self
     {
         $new = clone $this;
 
-        if ($new->hasHeader($header)) {
-            unset($new->headers[$header]);
+        if ($new->hasHeader($name)) {
+            unset($new->headers[$name]);
         }
 
-        $new->headers[$header] = $value;
+        $new->headers[$name] = $value;
 
         return $new;
+    }
+
+    public function getProtocolVersion()
+    {
+        // TODO: Implement getProtocolVersion() method.
+    }
+
+    public function withProtocolVersion($version)
+    {
+        // TODO: Implement withProtocolVersion() method.
+    }
+
+    public function getHeaderLine($name)
+    {
+        // TODO: Implement getHeaderLine() method.
+    }
+
+    public function withAddedHeader($name, $value)
+    {
+        // TODO: Implement withAddedHeader() method.
+    }
+
+    public function withoutHeader($name)
+    {
+        // TODO: Implement withoutHeader() method.
     }
 }

@@ -2,6 +2,7 @@
 
 use Framework\Http\RequestFactory;
 use Framework\Http\Response;
+use \Framework\Http\SimpleStream;
 
 require '../vendor/autoload.php';
 
@@ -13,7 +14,7 @@ $request = RequestFactory::fromGlobals();
 
 $name = $request->getQueryParams()['name'] ?? 'Guest';
 
-$response = (new Response('Hello, ' . $name . '!'))
+$response = (new Response(new SimpleStream('Hello, ' . $name . '!')))
     ->withHeader('X-developer', 'Zurean');
 
 ### Sending

@@ -8,7 +8,7 @@ class ResponseTest extends TestCase
 {
     public function testEmpty(): void
     {
-        $response = new Response($body = 'Body');
+        $response = new Response(new SimpleStream($body = 'Body'));
 
         self::assertEquals($body, $response->getBody());
         self::assertEquals(200, $response->getStatusCode());
@@ -18,7 +18,7 @@ class ResponseTest extends TestCase
 
     public function  test404(): void
     {
-        $response = new Response($body = 'Empty', $status = 404);
+        $response = new Response(new SimpleStream($body = 'Body'), $status = 404);
 
         self::assertEquals($body, $response->getBody());
         self::assertEquals($status, $response->getStatusCode());
@@ -27,7 +27,7 @@ class ResponseTest extends TestCase
 
     public function testHeader(): void
     {
-        $response = (new Response(''))
+        $response = (new Response(new SimpleStream('')))
             ->withHeader($name1 = 'X-Header-1', $value1 = 'value1')
             ->withHeader($name2 = 'X-Header-2', $value2 = 'value2');
 
