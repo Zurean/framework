@@ -2,6 +2,7 @@
 
 use Framework\Http\RequestFactory;
 use Framework\Http\Response;
+use Framework\Http\ResponseEmitter;
 
 require '../vendor/autoload.php';
 
@@ -18,8 +19,4 @@ $response = (new Response('Hello, ' . $name . '!'))
 
 ### Sending
 
-header('HTTP/1.0 ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase());
-foreach ($response->getHeaders() as $name => $value) {
-    header($name . ':' . $value);
-}
-echo $response->getBody();
+(new ResponseEmitter())->emit($response);
