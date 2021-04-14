@@ -20,3 +20,8 @@ $response = (new Response('Hello, ' . $name . '!'))
 ### Sending
 
 (new ResponseEmitter())->emit($response);
+
+# @todo implement RequestFactory
+# @todo implement ServerRequest and Response methods
+# @todo implement StreamInterface
+# @todo improve Response headers
